@@ -1,0 +1,77 @@
+body{
+    background:lightgrey;
+}
+.redtext{
+    color:darkred;
+}
+.different_background{
+    background:lightblue;
+}
+ul.menu:hover{
+    color: brown;
+    font-weight: bold;
+}
+/* https://teamtreehouse.com/community/html-code-for-a-menu-bar*/
+.header {
+    background: none repeat scroll 0 0 #363E45;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    height: 56px;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+.header-inner:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+.header-inner {
+    padding: 8px 10px 0;
+    position: relative;
+}
+.header-inner a {
+    color: #959B9D;
+}
+
+.header_link {
+    float: left;
+    margin: -8px 5px 0 -10px;
+    padding: 11px 15px;
+    font-size: 25px;
+}
+/* https://teamtreehouse.com/community/html-code-for-a-menu-bar*/
+.button_green {
+    display: block;
+    background-color: #3bc78b;
+    color: #fff;
+    font-family: FFMaxWebPro Serif;
+    padding: 5px 8px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+.button_greener {
+background-color: #3BC78B;
+color: #FFF;
+font-weight: bold;
+padding: 6px 10px;
+padding-top: 6px;
+padding-right-value: 10px;
+padding-bottom: 6px;
+padding-left-value: 10px;
+padding-left-ltr-source: physical;
+padding-left-rtl-source: physical;
+padding-right-ltr-source: physical;
+padding-right-rtl-source: physical;
+border-radius: 4px;
+border-top-left-radius: 4px;
+border-top-right-radius: 4px;
+border-bottom-right-radius: 4px;
+border-bottom-left-radius: 4px;
+}
+
+.table_gallery img  {
+    border: 2px solid  #363E45;
+}
+.img_view >img {
+    border: 2px solid  #363E45;
+}

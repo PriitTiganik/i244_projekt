@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link type="text/css"  rel="stylesheet" href="style.css" />
+</head>
+<body>
+<br>
+<p>Log in:</p>
+<br>
+<form method="post" target="." id="login">
+
+    <table>
+        <tr>
+            <td>email:</td><td><input type="email" name ="login_email" id=login_email" placeholder="email@email.com"  size ="30" ></td>
+        </tr>
+        <tr>
+            <td>password:</td><td><input type="password" name ="login_password" id=login_password"  size ="30" ></td>
+        </tr>
+    </table>
+    <button type="submit">
+        log in
+    </button>
+</form>
+<br><br>
+<p>Not registered? Register here:</p>
+<form method="post" target="." id="register">
+
+    <table>
+        <tr>
+            <td>email:</td><td><input type="email" name ="register_email" id=register_email" placeholder="email@email.com"  size ="30" ></>
+        </tr>
+        <tr>
+            <td>password:</td><td><input type="password" name ="register_password" id=register_password"  size ="30" ></td>
+        </tr>
+        <tr>
+            <td>repeat password:</td><td><input type="password" name ="register_password_repeat" id=register_password_repeat"  size ="30" ></td>
+        </tr>
+    </table>
+    <button type="submit">
+        register
+    </button>
+</form>
+</body>
+</html>
