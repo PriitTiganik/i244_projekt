@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>Gallery</title>
     <link type="text/css"  rel="stylesheet" href="style.css" />
+    <!--<script src="js.js" type="text/javascript"></script>-->
 </head>
 <body>
+<p id="sheetgallery"></p>
+
 <div class="header">
     <div class="header-inner">
         <a class="header_link" href="index.html">Home</a>
@@ -14,9 +17,7 @@
     </div>
 </div>
 <br><br><br>
-
 <h1>Gallery</h1>
-
 <table class= "table_gallery" >
     <tr>
         <td><a href="img_view.html"><img src="img/thumb/img1.jpg" alt="pic"></a></td>
@@ -27,6 +28,30 @@
         <td><a href="img_view.html"><img src="img/thumb/img4.jpg" alt="pic"></a></td>
     </tr>
 </table>
+
+<table id="jsgallery" class= "table_gallery" >
+<tr>
+    <td><a href="img/img/img3.jpg"><img src="img/thumb/img3.jpg" alt="pic3"></a></td>
+    <td><a href="img/img/img4.jpg"><img src="img/thumb/img4.jpg" alt="pic4"></a></td>
+</tr>
+</table>
+
+<br><br><br>
+aa
+<div id="hoidja" style="display:none;">
+    <div id="taust"></div>
+    <div id="tabel">
+        <div id="cell">
+            <div id="sulge" onclick="hideDetails();">Sulge</div>
+            <div id="sisu">
+                <img id="suurpilt" src="img/img/img4.jpg" alt="ajutine"/><br/>
+                <span id="inf"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js.js" type="text/javascript"></script>
 
 </body>
 </html>

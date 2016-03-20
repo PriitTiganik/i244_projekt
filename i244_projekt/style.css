@@ -75,3 +75,50 @@ border-bottom-left-radius: 4px;
 .img_view >img {
     border: 2px solid  #363E45;
 }
+
+/*viies praks, javaskript*/
+
+#taust{ /* taust, mis peidab lehe sisu */
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.7);
+    z-index:5;
+}
+#tabel{ /* toob suure pildi esile ja määrab kuvamise ala tabelina */
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin:0 auto;
+    z-index: 10;
+    display:table;
+    width:100%;
+    height:100%;
+    color:white;
+}
+#cell{ /* paigutab pildi ja teksti vertikaalselt keskele nagu tabelivälja */
+    display:table-cell;
+    vertical-align:middle;
+}
+#sisu { /* teeb pildi ümbruse kitsamaks ja annab tausta */
+    display: table;
+    margin: auto;
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
+}
+#sulge { /* sulgemise element */
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 15;
+    padding:4px;
+    font-weight: bold;
+}
+#hoidja {  /* ümbritseb kogu suure pildi elementide hulka 0px kõrgusena, et teised elemendid taga oleks kasutatavad*/
+    height: 0px;
+}
+/*viies praks, javaskript*/
