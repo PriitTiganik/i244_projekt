@@ -1,0 +1,25 @@
+
+
+<div class="div_gallery">
+    <?php
+     foreach($pictures as $pic){
+        //var_dump($pic);
+        $jpgimg=$pic["big"];
+        $jpgthumb=$pic["small"];
+        $alt=$pic["alt"];
+        echo '<a href="'.$jpgimg.'"><img src="'.$jpgthumb.'" alt="'.$alt.'"></a>';
+     }
+     ?>
+<!--    <table class= "table_gallery" >
+        <tr>
+            <td><a href="img_view.html"><img src="img/thumb/img1.jpg" alt="pic"></a></td>
+            <td><a href="img_view.html"><img src="img/thumb/img2.jpg" alt="pic"></a></td>
+        </tr>
+        <tr>
+            <td><a href="img_view.html"><img src="img/thumb/img3.jpg" alt="pic"></a></td>
+            <td><a href="img_view.html"><img src="img/thumb/img4.jpg" alt="pic"></a></td>
+        </tr>
+    </table>-->
+</div>
+
+

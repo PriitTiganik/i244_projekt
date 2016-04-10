@@ -3,11 +3,13 @@ body{
     background:lightgrey;
 }
 h1{
-    padding-top:60px;
+
 }
 .body{
+    padding-top:70px;
     max-width:1000px;
-    margin:auto;
+
+    /*margin:auto;*/
 }
 .redtext{
     color:darkred;
@@ -26,6 +28,7 @@ ul.menu:hover{
     height: 56px;
     position: fixed;
     width: 100%;
+    min-width:300px;
     /*max-width:1000px;*/
     /*vertical-align: top;*/
     /*z-index: 100;*/
@@ -37,7 +40,8 @@ ul.menu:hover{
 }
 
 .header-inner a, .header-inner div {
-    color: #959B9D;
+    color: #959B9D;/*#959B9D*/
+    background-color: #363E45;
     float: left;
     margin: -8px 5px 0 -10px;
     padding: 11px 15px;
@@ -73,6 +77,77 @@ border-radius: 4px;
 .table_gallery img  {
     border: 2px solid  #363E45;
 }
-.img_view >img {
-    border: 2px solid  #363E45;
+
+/*
+
+piltide navigeerimine ilusam
+
+*/
+
+#prev, #next {
+    display:block;
+    position: absolute;
+    top:0px;
+    bottom:0px;
+    width: 40px;
 }
+#prev:hover, #next:hover{
+    background-color: rgba(255,255,255,0.1);
+}
+#prev {
+    left:0px;
+    background: url("prev.png") center no-repeat;
+}
+#next {
+    right:0px;
+    background: url("next.png") center no-repeat;
+}
+
+
+
+/*viies praks, javaskript*/
+
+#taust{ /* taust, mis peidab lehe sisu */
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.7);
+    z-index:5;
+}
+#tabel{ /* toob suure pildi esile ja määrab kuvamise ala tabelina */
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin:0 auto;
+    z-index: 10;
+    display:table;
+    width:100%;
+    height:100%;
+    color:white;
+}
+#cell{ /* paigutab pildi ja teksti vertikaalselt keskele nagu tabelivälja */
+    display:table-cell;
+    vertical-align:middle;
+}
+#sisu { /* teeb pildi ümbruse kitsamaks ja annab tausta */
+    display: table;
+    margin: auto;
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
+}
+#sulge { /* sulgemise element */
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 15;
+    padding:4px;
+    font-weight: bold;
+}
+#hoidja {  /* ümbritseb kogu suure pildi elementide hulka 0px kõrgusena, et teised elemendid taga oleks kasutatavad*/
+    height: 0px;
+}
+/*viies praks, javaskript*/

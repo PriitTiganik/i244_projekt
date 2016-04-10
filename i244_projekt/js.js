@@ -22,13 +22,19 @@ function showDetails(el){
     if(document.getElementById('hoidja')==null){
         return false;
     }
+
+
     var suurpilt= document.getElementById('suurpilt');
     suurpilt.src= el.parentNode.href;
-    //alert(suurpilt.src);
     suurpilt.onload =function(){suurus(this)};
     suurpilt.alt=el.alt;
-
     document.getElementById('inf').innerHTML=el.alt;
+
+/*    $.get(el.href, "html", function(data){
+        document.getElementById('sisu').innerHTML=data;
+    });*/
+
+
     document.getElementById('hoidja').style.display='initial';
 
     return false;
