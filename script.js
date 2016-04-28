@@ -27,16 +27,21 @@ $(document).ready(function(){
     var img_num;
     function find_img_num(){
         var str=$('.img_view>img').attr("src");
-        var firstindex=11;
-        var lastindex=str.indexOf(".jpg");
+        //var firstindex=st11;
+        var firstindex="img/img/img".length;
+        var lastindex=str.indexOf(".JPG");
+ /*       alert(str);
+        alert(firstindex);
+        alert(lastindex);
+        alert(str.slice(firstindex,lastindex)*1);*/
         return str.slice(firstindex,lastindex)*1;
     }
 
     $('#previmage').click(function(){
         img_num=find_img_num();
         $newimg=(img_num-1);
-        $prevhref="controller_img.php?img=img"+$newimg;
-        $.get($prevhref, "html", function(data){
+        $prevhref="controller_img.php?newimg=t&img=img"+$newimg;
+        $.get($prevhref, "html", function(data){//ajax gets new image from controller_img
             $('.img_view').html(data);
         });
     });
@@ -44,7 +49,7 @@ $(document).ready(function(){
     $('#nextimage').click(function(){
         img_num=find_img_num();
         $newimg=(img_num+1);
-        $nexthref="controller_img.php?img=img"+$newimg;
+        $nexthref="controller_img.php?newimg=t&img=img"+$newimg;
         $.get($nexthref, "html", function(data){
             $('.img_view').html(data);
         });

@@ -19,7 +19,11 @@ if($imgno<IMGMIN){
 } else if($imgno>IMGMAX){
     $img="img".($imgno-1);
 }
+if(!empty($_GET["newimg"])&&$_GET["newimg"]=="t"){
+    echo '<img src="img/img/'.$img.'.JPG" alt="pic" > </div>';
+} else{
+    echo '<div class="img_view"><img src="img/img/'.$img.'.JPG" alt="pic" > </div>';
+    echo '<div class="img_name">'.$img.'.JPG</div>';
+}
 
-echo '<div class="img_view"><img src="img/img/'.$img.'.jpg" alt="pic" > </div>';
-echo '<div class="img_name">'.$img.'.jpg</div>';
 ?>

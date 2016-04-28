@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link type="text/css"  rel="stylesheet" href="style.css" />
-</head>
-<body>
-<br>
-<p>Log in:</p>
-<br>
-<form method="post" target="." id="login">
+
+<form method="post" action="http://enos.itcollege.ee/~ptiganik/i244_projekt/controller.php?mode=login" id="login">
 
     <table>
         <tr>
-            <td>email:</td><td><input type="email" name ="login_email" id=login_email" placeholder="email@email.com"  size ="30" ></td>
+            <td>email:</td><td><input type="email" name ="login_email" id=login_email" placeholder="email@email.com"  size ="30"
+            <?php if(!empty($_POST["login_email"])) echo "value=\"".htmlspecialchars($_POST["login_email"])."\" "; ?>
+            </td>
+            <td>
+                <?php $e='missing email' ; if(!empty($errors) && in_array($e,$errors)):?>
+                    <span style="color:red"><?php echo $e; ?></span>
+                <?php endif;?>
+            </td>
         </tr>
         <tr>
             <td>password:</td><td><input type="password" name ="login_password" id=login_password"  size ="30" ></td>
+            <td>
+                <?php $e='missing password' ; if(!empty($errors) && in_array($e,$errors)):?>
+                <span style="color:red"><?php echo $e; ?></span>
+                <?php endif;?>
+            </td>
         </tr>
     </table>
     <button type="submit">
@@ -24,8 +26,9 @@
     </button>
 </form>
 <br><br>
+
 <p>Not registered? Register here:</p>
-<form method="post" target="." id="register">
+<form method="post" action="../controller.php?mode=register" id="register" >
 
     <table>
         <tr>
@@ -42,5 +45,3 @@
         register
     </button>
 </form>
-</body>
-</html>

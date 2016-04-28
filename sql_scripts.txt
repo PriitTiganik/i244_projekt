@@ -1,0 +1,28 @@
+create table ptiganik_pildid (
+    id  integer primary key auto_increment,
+thumb  varchar(1000),
+pic  varchar(1000),
+title  varchar(1000),
+author  varchar(1000),
+points  integer);
+
+insert into ptiganik_pildid(thumb,pic,title,author,points) 
+values("img\\thumb\\img1.jpg","img\\img\\img1.jpg", "img1", "Priit", 40);
+insert into ptiganik_pildid(thumb,pic,title,author,points) 
+values("img\\thumb\\img2.jpg","img\\img\\img2.jpg", "img2", "Priit2", 56);
+insert into ptiganik_pildid(thumb,pic,title,author,points) 
+values("img\\thumb\\img3.jpg","img\\img\\img3.jpg", "img3", "Priit2", 87);
+insert into ptiganik_pildid(thumb,pic,title,author,points) 
+values("img\\thumb\\img4.jpg","img\\img\\img4.jpg", "img4", "Priit2", 4);
+insert into ptiganik_pildid(thumb,pic,title,author,points) 
+values("img\\thumb\\img5.jpg","img\\img\\img5.jpg", "img5", "Priit", 55);
+
+select * from ptiganik_pildid where points>=50 order by points desc;
+
+select * from ptiganik_pildid where author = 'Priit';
+
+Update ptiganik_pildid set points = points +3;
+
+Select author, count(*) from ptiganik_pildid group by author;
+
+select sum(points) from ptiganik_pildid;

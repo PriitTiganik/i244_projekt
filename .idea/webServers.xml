@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="991986ae-a70a-475b-93ff-9e23aa5d625f" name="enos" url="http://enos.itcollege.ee/">
+        <fileTransfer host="enos.itcollege.ee" port="22" rootFolder="/home/ptiganik/public_html/i244_projekt" accessType="SFTP" password="df9bdffedfe9dfc6dfcfdfdadfcbdfc6dfcf" username="ptiganik">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

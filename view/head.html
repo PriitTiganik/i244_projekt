@@ -9,13 +9,29 @@
 
 </head>
 <body>
-<div class="header">
-    <div class="header-inner">
-        <a  href="?mode=index">Home</a>
-        <a id="header_active" href="?mode=gallery">Gallery</a>
-        <a  href="?mode=upload">Upload</a> <!--upload.html-->
-        <div>Tere Priit!</div>
-    </div>
-</div>
+<div id="wrapper">
+    <div class="header">
+        <div class="header-inner">
+            <?php if(isset($_SESSION["user"])):?>
+            <a  href="?mode=index">Home</a>
+            <a  href="?mode=gallery">Gallery</a>
+            <a  href="?mode=upload">Upload</a> <!--upload.html-->
+            <a  href="?mode=logout">Log out</a> <!--upload.html-->
+            <!--welcome message after login. deleted in functions-->
+            <div><?php
+            if(isset($_SESSION["teade"])){echo $_SESSION["teade"];}
+            elseif (isset($_SESSION["user"])) {echo $_SESSION['user'];}
+            ?></span></div>
+            <?php endif;?>
 
-<div class="body">
+            <?php if(!isset($_SESSION["user"])):?>
+            <a  href="?mode=index">Home</a>
+            <a  href="?mode=gallery">Gallery</a>
+            <a  href="?mode=login">Log in</a> <!--upload.html-->
+            <!--welcome message after login. deleted in functions-->
+            <div>not logged in</div>
+            <?php endif;?>
+        </div>
+    </div>
+
+    <div class="body">

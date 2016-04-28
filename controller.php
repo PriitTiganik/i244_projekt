@@ -1,5 +1,6 @@
 <?php
-
+require_once("functions.php");
+alusta_sessioon();
 ini_set("display_errors", 1);
 
 $pictures=array(
@@ -17,25 +18,27 @@ if(isset($_GET["mode"])){
     $mode="index";
 }
 
-
-
-include_once("view/head.html");
-
 switch($mode){
     case "gallery":
-        include("view/gallery.html");
+        kuva_galerii();
         break;
     case "index":
-        include("view/index.html");
+        kuva_index();
         break;
     case "upload":
-        include("view/upload.html");
+        kuva_upload();
         break;
     case "img_view":
-        include_once("controller_img.php");
-        include_once("view/img_view.html");
+        kuva_img_view();
+        break;
+    case "login":
+        //var_dump($_POST);
+        kuva_login();
+        break;
+    case "logout":
+        //var_dump($_POST);
+        kuva_logout();
         break;
 }
 
-include_once("view/foot.html");
 ?>
