@@ -4,9 +4,9 @@
     <?php
      foreach($pictures as $pic){
         //var_dump($pic);
-        $jpgimg=$pic["big"];
-        $jpgthumb=$pic["small"];
-        $alt=$pic["alt"];
+        $jpgimg=$pic["pic"];
+        $jpgthumb=$pic["thumb"];
+        $alt=$pic["title"];
         echo '<a href="'.$jpgimg.'"><img src="'.$jpgthumb.'" alt="'.$alt.'"></a>';
      }
      ?>

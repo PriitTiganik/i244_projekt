@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Priit
- * Date: 10/04/2016
- * Time: 12:01
- */
+print_r($pictures);
 define("IMGMAX", 4);
 define("IMGMIN", 1);
 

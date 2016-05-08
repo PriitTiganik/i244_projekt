@@ -1,14 +1,13 @@
 <?php
 require_once("functions.php");
 alusta_sessioon();
+connect_db();
+//print_r(pics_from_base());
+
 ini_set("display_errors", 1);
 
-$pictures=array(
-    array("big"=>"?mode=img_view&img=img1", "small"=>"img/thumb/img1.jpg", "alt"=>"img1"),
-    array("big"=>"?mode=img_view&img=img2", "small"=>"img/thumb/img2.jpg", "alt"=>"img2"),
-    array("big"=>"?mode=img_view&img=img3", "small"=>"img/thumb/img3.jpg", "alt"=>"img3"),
-    array("big"=>"?mode=img_view&img=img4", "small"=>"img/thumb/img4.jpg", "alt"=>"img4")
-);
+
+
 
 $mode="";
 

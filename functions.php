@@ -13,8 +13,22 @@ function lopeta_sessioon(){
     session_destroy();
 }
 
+
+
 function kuva_galerii(){
-    global $pictures;//funktzsiooni sees eraldi skoop
+//    $pictures=array(
+//        array("big"=>"?mode=img_view&img=img1", "small"=>"img/thumb/img1.jpg", "alt"=>"img1"),
+//        array("big"=>"?mode=img_view&img=img2", "small"=>"img/thumb/img2.jpg", "alt"=>"img2"),
+//        array("big"=>"?mode=img_view&img=img3", "small"=>"img/thumb/img3.jpg", "alt"=>"img3"),
+//        array("big"=>"?mode=img_view&img=img4", "small"=>"img/thumb/img4.jpg", "alt"=>"img4")
+//    );
+
+    $pictures = pics_from_base();
+    echo "<pre>";
+    print_r($pictures);
+    echo "</pre>";
+
+    //global $pictures;//funktzsiooni sees eraldi skoop
     include_once("view/head.html");
     include("view/gallery.html");
     include_once("view/foot.html");
@@ -81,4 +95,31 @@ function kuva_login(){
         include_once("view/foot.html");
     }
 
+}
+
+function connect_db(){
+    global $connection;
+    $host="localhost";//"http://enos.itcollege.ee/phpmyadmin/";
+    $user="test";
+    $pass="t3st3r123";
+    $db="test";
+    $connection = mysqli_connect($host, $user, $pass, $db) or die("ei saa mootoriga ühendust");
+    mysqli_query($connection, "SET CHARACTER SET UTF8") or die("Ei saanud baasi utf-8-sse - ".mysqli_error($connection));
+}
+
+function pics_from_base(){
+    global $connection;
+      //luua massiiv info hoidmiseks
+    $db_pildid = array();
+    //Käivitada päring, mis hangib eelmisel korral loodud piltide tabelist kõik read.
+    $query="select * from ptiganik_pildid";
+    $result =mysqli_query($connection, $query);
+    print_r($result);
+    //    Pärast päringu käivitamist kasutada tulemuste lugemiseks while tsüklit.
+    while($row=mysqli_fetch_assoc($result)){ //Seni kuni on ridu, loe järgmine rida ja paiguta see eelnevalt loodud massiivi lõppu
+        $db_pildid[]=$row;
+    }
+
+    //funktsiooni lõpus tagastada täidetud massiiv
+    return $db_pildid;
 }
