@@ -1,8 +1,8 @@
 
 body{
     background:lightgrey;
-    margin:0;
-    padding:0;
+    margin:0px;
+    padding:0px;
     height:100%;
 }
 
@@ -165,5 +165,8 @@ piltide navigeerimine ilusam
 }
 #hoidja {  /* ümbritseb kogu suure pildi elementide hulka 0px kõrgusena, et teised elemendid taga oleks kasutatavad*/
     height: 0px;
+}
+.formtables{
+    padding-left:30px;
 }
 /*viies praks, javaskript*/

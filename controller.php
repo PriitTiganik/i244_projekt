@@ -1,13 +1,10 @@
 <?php
 require_once("functions.php");
 alusta_sessioon();
-connect_db();
+
 //print_r(pics_from_base());
 
 ini_set("display_errors", 1);
-
-
-
 
 $mode="";
 
@@ -24,8 +21,15 @@ switch($mode){
     case "index":
         kuva_index();
         break;
-    case "upload":
+/*    case "change":
         kuva_upload();
+        break;*/
+    case "change":
+        if(isset($_SESSION["user"])) {
+            kuva_change();
+        } else { //pole sisse loginud
+            kuva_index();
+        }
         break;
     case "img_view":
         kuva_img_view();
@@ -37,6 +41,10 @@ switch($mode){
     case "logout":
         //var_dump($_POST);
         kuva_logout();
+        break;
+    case "register":
+        //var_dump($_POST);
+        kuva_register();
         break;
 }
 

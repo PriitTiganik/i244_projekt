@@ -1,9 +1,9 @@
-
+<div class="formtables">
 <form method="post" action="http://enos.itcollege.ee/~ptiganik/i244_projekt/controller.php?mode=login" id="login">
 
     <table>
         <tr>
-            <td>email:</td><td><input type="email" name ="login_email" id=login_email" placeholder="email@email.com"  size ="30"
+            <td>email:</td><td><input type="email" name ="login_email" id=login_email" placeholder="user@email.com" value="kasutaja@email.ee"  size ="30"
             <?php if(!empty($_POST["login_email"])) echo "value=\"".htmlspecialchars($_POST["login_email"])."\" "; ?>
             </td>
             <td>
@@ -13,7 +13,7 @@
             </td>
         </tr>
         <tr>
-            <td>password:</td><td><input type="password" name ="login_password" id=login_password"  size ="30" ></td>
+            <td>password:</td><td><input type="password" name ="login_password" id=login_password"  size ="30" ></td> <!--name ="login_password" id=login_password" -->
             <td>
                 <?php $e='missing password' ; if(!empty($errors) && in_array($e,$errors)):?>
                 <span style="color:red"><?php echo $e; ?></span>
@@ -25,12 +25,14 @@
         log in
     </button>
 </form>
+</div>
 <br><br>
 
+<div class="formtables">
 <p>Not registered? Register here:</p>
-<form method="post" action="../controller.php?mode=register" id="register" >
+<form method="post" action="http://enos.itcollege.ee/~ptiganik/i244_projekt/controller.php?mode=register" id="register" >
 
-    <table>
+    <table >
         <tr>
             <td>email:</td><td><input type="email" name ="register_email" id=register_email" placeholder="email@email.com"  size ="30" ></>
         </tr>
@@ -45,3 +47,4 @@
         register
     </button>
 </form>
+</div>

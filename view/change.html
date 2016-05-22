@@ -1,0 +1,71 @@
+
+<?php
+$picmod=array(); //picture to modify
+if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
+//print_r($picmod);
+?>
+<!--<?php ( explode('\\',$picmod[0]['pic'])); ?>-->
+<div class="formtables">
+<form method="POST" enctype="multipart/form-data" action="?mode=change" id ="change" >
+    <?php if(isset($_GET["img"])){
+        echo 'Fill the information with new data to modify chosen picture: ';
+        echo htmlspecialchars($picmod[0]["title"]);
+        echo '</p>';
+    };?>
+    <br>
+    <table>
+        <tr>
+            <td>Author:</td><td colspan="1"><input type="text" name="img_author" value="<?php
+            if(isset($_GET['img'])){echo htmlspecialchars($picmod[0]['author']);}; ?>"></td>
+        </tr>
+        <tr>
+            <td>Title:</td><td colspan="1"><input type="text" name="img_title" value="<?php
+            if(isset($_GET['img'])){echo htmlspecialchars($picmod[0]['title']);}; ?>">
+            </td>
+        </tr>
+        <!--<tr>
+            <td>folder:</td><td colspan="2">
+            <select name="img_folder">
+                <option value ="new_folder">new folder</option>
+                <option value ="one">one</option>
+                <option value ="two">two</option>
+            </select>
+        </td>
+            <td>new folder:</td>
+            <td><input type="text" name="img_new_folder" ></td>
+        </tr>-->
+        <tr>
+            <td>Large picture:</td><td><input type="text" name="img_img" value="<?php
+            if(isset($_GET['img'])){echo htmlspecialchars(explode('\\',$picmod[0]['pic'])[2]);}; ?>"></td>
+        </tr>
+        <tr>
+            <td>Thumbnail:</td><td><input type="text" name="img_thumb" value="<?php
+            if(isset($_GET['img'])){echo htmlspecialchars(explode('\\',$picmod[0]['thumb'])[2]);}; ?>"></td>
+        </tr>
+        <tr>
+            <td>Large picture:</td><td><input type="file" name="img_file"  ></td>
+            <?php
+            if(isset($_GET['img'])){echo "<td>Current file: ".htmlspecialchars(explode('\\',$picmod[0]['pic'])[2]);}; ?></td>
+        </tr>
+        <tr>
+            <td>Thumbnail:</td><td><input type="file" name="thumb_file" ></td>
+            <?php
+            if(isset($_GET['img'])){echo "<td>Current file: ".htmlspecialchars(explode('\\',$picmod[0]['thumb'])[2])."</td>";}; ?>
+
+        </tr>
+        <tr>
+            <?php if(!isset($_GET['img'])){echo "<td colspan='2'><input type='checkbox' name = 'genthumb' value ='genthumb'> Generate thumbnail from large image</td>";};?>
+        </tr>
+        <?php if(isset($_GET['img'])){echo "<td><input type='hidden' name='post_type' value='update'></td>";
+        } else {
+        echo "<td><input type='hidden' name='post_type' value='insert'></td>";
+        };
+         ?>
+        <tr>
+            <td></br><button class="button_greener" type="submit"><?php
+            if(isset($_GET["img"])){echo 'Modify named picture';} else {echo 'Upload new picture';};?></button>
+            </td>
+        </tr>
+    </table>
+</form>
+</div>
