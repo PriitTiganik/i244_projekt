@@ -9,18 +9,18 @@ if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
 <form method="POST" enctype="multipart/form-data" action="?mode=change" id ="change" >
     <?php if(isset($_GET["img"])){
         echo 'Fill the information with new data to modify chosen picture: ';
-        echo htmlspecialchars($picmod[0]["title"]);
+        echo htmlspecialchars($picmod["title"]);
         echo '</p>';
     };?>
     <br>
     <table>
         <tr>
             <td>Author:</td><td colspan="1"><input type="text" name="img_author" value="<?php
-            if(isset($_GET['img'])){echo htmlspecialchars($picmod[0]['author']);}; ?>"></td>
+            if(isset($_GET['img'])){echo htmlspecialchars($picmod['author']);}; ?>"></td>
         </tr>
         <tr>
             <td>Title:</td><td colspan="1"><input type="text" name="img_title" value="<?php
-            if(isset($_GET['img'])){echo htmlspecialchars($picmod[0]['title']);}; ?>">
+            if(isset($_GET['img'])){echo htmlspecialchars($picmod['title']);}; ?>">
             </td>
         </tr>
         <!--<tr>
@@ -34,32 +34,42 @@ if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
             <td>new folder:</td>
             <td><input type="text" name="img_new_folder" ></td>
         </tr>-->
-        <tr>
+<!--        <tr>
             <td>Large picture:</td><td><input type="text" name="img_img" value="<?php
-            if(isset($_GET['img'])){echo htmlspecialchars(explode('\\',$picmod[0]['pic'])[2]);}; ?>"></td>
+            if(isset($_GET['img'])){echo htmlspecialchars($picmod['pic']);}; ?>"></td>
         </tr>
         <tr>
             <td>Thumbnail:</td><td><input type="text" name="img_thumb" value="<?php
-            if(isset($_GET['img'])){echo htmlspecialchars(explode('\\',$picmod[0]['thumb'])[2]);}; ?>"></td>
-        </tr>
+            if(isset($_GET['img'])){echo htmlspecialchars($picmod['thumb']);}; ?>"></td>
+        </tr>-->
         <tr>
             <td>Large picture:</td><td><input type="file" name="img_file"  ></td>
             <?php
-            if(isset($_GET['img'])){echo "<td>Current file: ".htmlspecialchars(explode('\\',$picmod[0]['pic'])[2]);}; ?></td>
+            if(isset($_GET['img'])){echo "<td>Current file: ".htmlspecialchars($picmod['pic']);}; ?></td>
         </tr>
         <tr>
             <td>Thumbnail:</td><td><input type="file" name="thumb_file" ></td>
             <?php
-            if(isset($_GET['img'])){echo "<td>Current file: ".htmlspecialchars(explode('\\',$picmod[0]['thumb'])[2])."</td>";}; ?>
+            if(isset($_GET['img'])){echo "<td>Current file: ".htmlspecialchars($picmod['thumb'])."</td>";}; ?>
 
         </tr>
+
+        <?php if(!isset($_GET['img'])){echo "<tr><td colspan='2'><input type='checkbox' name = 'genthumb' value ='genthumb'> Generate thumbnail from large image</td></tr>";};?>
         <tr>
-            <?php if(!isset($_GET['img'])){echo "<td colspan='2'><input type='checkbox' name = 'genthumb' value ='genthumb'> Generate thumbnail from large image</td>";};?>
+            <td>Make picture public:</td>
+            <td colspan ="2">
+                <input type="radio" id ="no" name = "is_public" value ="no" checked >
+                <label for="no">No</label>
+                <input type="radio" id= "yes" name = "is_public" value ="yes" >
+                <label for="yes">Yes</label>
+            </td>
         </tr>
-        <?php if(isset($_GET['img'])){echo "<td><input type='hidden' name='post_type' value='update'></td>";
+
+        <?php if(isset($_GET['img'])){echo "<input type='hidden' name='post_type' value='update'>";
         } else {
-        echo "<td><input type='hidden' name='post_type' value='insert'></td>";
+        echo "<input type='hidden' name='post_type' value='insert'>";
         };
+        if(isset($_GET['img'])){echo "<input type='hidden' name='img_id' value='".$_GET['img']."'>";};
          ?>
         <tr>
             <td></br><button class="button_greener" type="submit"><?php

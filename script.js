@@ -36,6 +36,7 @@ $(document).ready(function(){
         alert(str.slice(firstindex,lastindex)*1);*/
         return str.slice(firstindex,lastindex)*1;
     }
+/*
 
     $('#previmage').click(function(){
         img_num=find_img_num();
@@ -55,6 +56,7 @@ $(document).ready(function(){
         });
     });
 
+*/
 
 
     if(document.getElementById('sheetgallery') != null){
