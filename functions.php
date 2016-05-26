@@ -5,6 +5,10 @@ $pictures = array();//pics_from_base();
 function alusta_sessioon(){
     // siin ees võiks muuta ka sessiooni kehtivusaega, aga see pole hetkel tähtis
     session_start();
+    if(!isset($_SESSION["userid"])){
+        $_SESSION["userid"]="";//as long as user is not logged in userid exists, but is blank
+    }
+
 }
 
 function lopeta_sessioon(){
@@ -18,18 +22,9 @@ function lopeta_sessioon(){
 
 
 function kuva_galerii(){
-//    $pictures=array( //manual gallery
-//        array("big"=>"?mode=img_view&img=img1", "small"=>"img/thumb/img1.jpg", "alt"=>"img1"),
-//        array("big"=>"?mode=img_view&img=img2", "small"=>"img/thumb/img2.jpg", "alt"=>"img2"),
-//        array("big"=>"?mode=img_view&img=img3", "small"=>"img/thumb/img3.jpg", "alt"=>"img3"),
-//        array("big"=>"?mode=img_view&img=img4", "small"=>"img/thumb/img4.jpg", "alt"=>"img4")
-//    );
+
     global $pictures;
     $pictures = pics_from_base();
- /*  echo "<pre>";
-    print_r($pictures);
-    echo "</pre>";*/
-
     include_once("view/head.html");
     gallery ();
     include_once("view/foot.html");
@@ -41,13 +36,12 @@ function gallery (){ //generates gallery
     echo "<div class=\"div_gallery\">";
     global $pictures;
     foreach($pictures as $pic) {
-        //var_dump($pic);
-        $picarray = explode('\\', $pic["pic"]); //loob pildi aadressi arrayks
-        //print_r($picarray);
-        $jpgimg = "?mode=img_view&img=".$pic["id"]; //.$pic["id"]; //. rtrim($picarray[2], ".jpg");// pildi aadressist teeb get p'ringu
-        $jpgthumb = "img/thumb/".$pic["thumb"];
-        $alt = $pic["title"];
-        echo '<a href="' . $jpgimg . '"><img src="' . $jpgthumb . '" alt="' . $alt . '"></a>';
+        if($pic["user_id"]==$_SESSION["userid"]||$pic["is_public"]=="yes") { //gallery for only public pictures or from the same user
+            $jpgimg = "?mode=img_view&img=" . $pic["id"]; /// pildi aadressist teeb get p'ringu
+            $jpgthumb = "img/thumb/" . $pic["thumb"];
+            $alt = $pic["title"];
+            echo '<a href="' . $jpgimg . '"><img src="' . $jpgthumb . '" alt="' . $alt . '"></a>';
+        }
     }
     echo "</div>";
 }
@@ -56,7 +50,7 @@ function kuva_index(){
     include("view/index.html");
     include_once("view/foot.html");
 }
-function kuva_upload(){
+/*function kuva_upload(){
 
     if(isset($_SESSION["user"])){
         include_once("view/head.html");
@@ -65,7 +59,7 @@ function kuva_upload(){
     } else{
         kuva_index();
     }
-}
+}*/
 function kuva_change(){
     global $connection;
     global $pictures;
@@ -90,12 +84,6 @@ function kuva_change(){
                 $errors[]="Missing thumbnail image!";
             }
         }
-       /* if(empty($_POST["img_img"])){
-            $errors[]="Missing large image!";
-        }
-        if(empty($_POST["img_thumb"])){
-            $errors[]="Missing thumbnail image!";
-        }*/
 
     } else{ //on sisse logitud, aga pole uploadi nuppu vajutanud
         include("view/change.html");
@@ -111,9 +99,13 @@ function kuva_change(){
         $img_title=array('img_title',mysqli_real_escape_string($connection,$_POST["img_title"]))[1];
         $is_public=array('is_public',mysqli_real_escape_string($connection,$_POST["is_public"]))[1];
         //$img_img=array('img_img',mysqli_real_escape_string($connection,'img\img\\'.$_POST["img_img"]))[1];
-        $img_img=upload('img_file','/home/ptiganik/public_html/i244_projekt/img/img');
+        $img_img=upload('img_file','/home/ptiganik/public_html/i244_projekt/img/img', true,600);
         //$img_thumb=array('img_thumb',mysqli_real_escape_string($connection,'img\thumb\\'.$_POST["img_thumb"]))[1];
-        $img_thumb=upload('thumb_file','/home/ptiganik/public_html/i244_projekt/img/thumb');
+        if( empty($_POST["genthumb"])){//generate thumbnail from large image.
+            $img_thumb=upload('thumb_file','/home/ptiganik/public_html/i244_projekt/img/thumb', true,150);
+        } else {
+            $img_thumb="";
+        }
 
         if(($img_img=="error"|| $img_img=="exists") && $_POST["post_type"]=='insert'){
             $errors[]="Large file with the same name already exists and the request was not processed!";
@@ -124,7 +116,7 @@ function kuva_change(){
         }
 
        // echo ( $img_img);
-        //echo ( $img_thumb);
+
         $user=$_SESSION['userid'];
         if($_POST["post_type"]=='update'&&count($errors)==0){
             $img_id=array('img_id',mysqli_real_escape_string($connection,$_POST["img_id"]))[1];
@@ -148,6 +140,13 @@ function kuva_change(){
                 $queryresult='For some reason picture was not updated..';
             }
         } else if ($_POST["post_type"]=='insert'&&count($errors)==0){
+            if( !empty($_POST["genthumb"])){//generate thumbnail from large image.
+                include_once("img_resize.php");
+                $file='/home/ptiganik/public_html/i244_projekt/img/img/'.$img_img;
+                $resizedfile='/home/ptiganik/public_html/i244_projekt/img/thumb/'.$img_img;
+                smart_resize_image($file,null,150,150,true,$resizedfile,false,false, 100);
+                $img_thumb=$img_img;
+            }
             //insert query
             $query="INSERT INTO ptiganik_pildid ( pic,thumb, title, author, user_id, is_public) VALUES('$img_img', '$img_thumb','$img_title','$img_author','$user','$is_public')";
             $queryresult=mysqli_query($connection, $query);
@@ -182,7 +181,8 @@ function img(){
         $img_id=$_GET["img"];
     } else{kuva_galerii(); } //empty parameter returns gallery
     $pic=pic_from_base($img_id); //returns the row of the picture
-    if($pic==""){ header("Location: controller.php?mode=gallery");}
+    //if picture does not exist or is not from the same user and not made public then return to gallery
+    if($pic==""||($pic["user_id"]!=$_SESSION["userid"]&&$pic["is_public"]!="yes")){ header("Location: controller.php?mode=gallery");}
     //echo '<pre>';
     //print_r($pic);
     //echo '</pre>';
@@ -205,32 +205,7 @@ function img(){
     echo '<span>&nbsp&nbsp&nbsp&nbsp</span>';
     echo '<a  href="?mode=img_view&img='.$nextpic.'"><span id="nextimage">next image<img  src="next.png" alt="next img"></span></a>';
 }
-/*function img2(){
-    define("IMGMAX", 5);
-    define("IMGMIN", 1);
 
-    $img="";
-    if(isset($_GET["img"])){
-        $img=$_GET["img"];
-    }
-    $imgno=substr($img,3)*1;
-
-    if($imgno<IMGMIN){
-        $img="img".($imgno+1);
-    } else if($imgno>IMGMAX){
-        $img="img".($imgno-1);
-    }
-    if(!empty($_GET["newimg"])&&$_GET["newimg"]=="t"){
-        echo '<img src="img/img/'.$img.'.JPG" alt="pic" > </div>';
-    } else{
-        echo '<div class="img_view"><img src="img/img/'.$img.'.JPG" alt="pic" > </div>';
-        echo '<div class="img_name">'.$img.'.JPG</div>';
-        if(isset($_SESSION["user"])){
-            $getimg="&img=".$_GET["img"];
-            echo '<div class="button_green"><a  href="?mode=change'.$getimg.'">Change pic</a></div></br>';
-        }
-    }
-}*/
 function kuva_logout(){
     lopeta_sessioon();
     kuva_login();
@@ -417,15 +392,14 @@ function pic_from_base($picid, $type=""){
     }
 }
 
-function upload($name, $loc){
+function upload($name, $loc, $resize, $size){
     $allowedExts = array("jpg", "jpeg", "gif", "png", "JPG", "JPEG", "GIF", "PNG");
     $allowedTypes = array("image/gif", "image/jpeg", "image/png","image/pjpeg");
     error_reporting(E_ALL ^ E_STRICT);
     $extension = end(explode(".", $_FILES[$name]["name"]));
     error_reporting(-1);
-
     if ( in_array($_FILES[$name]["type"], $allowedTypes)
-        && ($_FILES[$name]["size"] < 100000) // see on 100kb
+        && ($_FILES[$name]["size"] < 10000000) // see on 10000kb
         && in_array($extension, $allowedExts)) {
         // fail õiget tüüpi ja suurusega
         if ($_FILES[$name]["error"] > 0) {
@@ -439,6 +413,10 @@ function upload($name, $loc){
             } else {
                 // kõik ok, aseta pilt
                 move_uploaded_file($_FILES[$name]["tmp_name"], $loc."/" . $_FILES[$name]["name"]);
+                if($resize){
+                    include_once("img_resize.php");
+                    smart_resize_image($loc."/".$_FILES[$name]["name"], null, $size,$size, true,$loc."/".$_FILES[$name]["name"] , false, false,100);
+                }
                 return $_FILES[$name]["name"];
             }
         }
