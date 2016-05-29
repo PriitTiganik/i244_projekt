@@ -68,10 +68,6 @@ body{
 .different_background{
     background:lightblue;
 }
-ul.menu:hover{
-    color: brown;
-    font-weight: bold;
-}
 
 .button_green {
     display: block;
