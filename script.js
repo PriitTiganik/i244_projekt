@@ -1,4 +1,17 @@
 $(document).ready(function(){
+/*    $("ul.hover").mouseenter(function(){
+        //$("ul>li>ul").hide();
+        $("#menu ul").hide(300);
+        $(this).children($("ul")).show(300);
+    })
+    $("ul.hover").mouseleave(function(){
+        //$("ul>li>ul").hide();
+        $("#menu ul").hide(300);
+
+    })*/
+
+
+
     $('.header-inner>a').mouseenter(function(){
         $(this).css("color","#ffffff");
         $(this).animate({"height": "40px"},

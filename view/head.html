@@ -11,13 +11,17 @@
 <body>
 <div id="wrapper">
     <div class="header">
-        <div class="header-inner">
+        <div class="header-inner" id="menu">
             <?php if(isset($_SESSION["user"])):?>
             <a  href="?mode=index">Home</a>
-            <a  href="?mode=gallery">Gallery</a>
-            <a  href="?mode=change">Upload</a> <!--upload.html-->
-
-            <a  href="?mode=logout">Log out</a> <!--upload.html-->
+            <a  href="?mode=gallery">Public gallery</a>
+            <!--<ul class="hover">
+                <li><a href="?">link</a></li>
+                <li><a href="?">link</a></li>
+            </ul>-->
+            <a  href="?mode=galleryprivate">Your gallery</a>
+            <a  href="?mode=change">Upload</a>
+            <a  href="?mode=logout">Log out</a>
             <!--welcome message after login. deleted in functions-->
             <div><?php
             if(isset($_SESSION["teade"])){echo $_SESSION["teade"];}
@@ -27,7 +31,7 @@
 
             <?php if(!isset($_SESSION["user"])):?>
             <a  href="?mode=index">Home</a>
-            <a  href="?mode=gallery">Gallery</a>
+            <a  href="?mode=gallery">Public gallery</a>
             <a  href="?mode=login">Log in</a> <!--upload.html-->
             <!--welcome message after login. deleted in functions-->
             <div>not logged in</div>

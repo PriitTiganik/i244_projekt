@@ -32,18 +32,34 @@ function kuva_galerii(){
         unset($_SESSION['teade']);
     }
 }
-function gallery (){ //generates gallery
-    echo "<div class=\"div_gallery\">";
+function kuva_galleryprivate(){
     global $pictures;
+    $pictures = pics_from_base();
+    include_once("view/head.html");
+    gallery (false);
+    include_once("view/foot.html");
+    if(isset($_SESSION['teade'])){
+        unset($_SESSION['teade']);
+    }
+}
+function gallery ($public=true){ //generates gallery
+    echo "<div class=\"div_gallery\"><table border=\"1\">";
+    global $pictures;
+    $columns=4;
+    $cellcount=0;
+    echo '<tr>'; //first row is empty
     foreach($pictures as $pic) {
-        if($pic["user_id"]==$_SESSION["userid"]||$pic["is_public"]=="yes") { //gallery for only public pictures or from the same user
+        if($pic["user_id"]==$_SESSION["userid"]||($pic["is_public"]=="yes"&&$public)) { //gallery for only public pictures or from the same user
             $jpgimg = "?mode=img_view&img=" . $pic["id"]; /// pildi aadressist teeb get p'ringu
             $jpgthumb = "img/thumb/" . $pic["thumb"];
             $alt = $pic["title"];
-            echo '<a href="' . $jpgimg . '"><img src="' . $jpgthumb . '" alt="' . $alt . '"></a>';
+            if($cellcount%$columns==0){echo '</tr>';}//end table row if 4 columns are full
+            if($cellcount%$columns==0){echo '<tr>';} //start table row if previous 4 columns are full
+            echo '<td class="imageingallery"><span><a href="' . $jpgimg . '"><img src="' . $jpgthumb . '" alt="' . $alt . '"></a></span></td>';
+            $cellcount++;
         }
     }
-    echo "</div>";
+    echo "</table></div>";
 }
 function kuva_index(){
     include_once("view/head.html");
@@ -183,27 +199,32 @@ function img(){
     $pic=pic_from_base($img_id); //returns the row of the picture
     //if picture does not exist or is not from the same user and not made public then return to gallery
     if($pic==""||($pic["user_id"]!=$_SESSION["userid"]&&$pic["is_public"]!="yes")){ header("Location: controller.php?mode=gallery");}
-    //echo '<pre>';
-    //print_r($pic);
-    //echo '</pre>';
 
-    echo '<div class="img_view"><img src="img/img/'.$pic["pic"].'" alt="pic" > </div>';
-    echo '<div class="img_name">Picture name: '.$pic["title"].'</div>';
-    echo '<div class="img_author">Picture author: '.$pic["author"].'</div>';
-    echo '<div class="img_is_public">Is the picture public: '.$pic["is_public"].'</div>';
-
-    if(isset($_SESSION["user"])){ //if user is logged in he/she can change the picture
-        $getimg="&img=".$_GET["img"];
-        echo '<div class="button_green"><a  href="?mode=change'.$getimg.'">Change pic</a></div></br>';
-    }
-
+//navigate calculations
     $nextpic=pic_from_base($img_id, 'next');
     if($nextpic!=""){$nextpic=$nextpic["id"];}else {$nextpic=$pic["id"];}
     $prevpic=pic_from_base($img_id,'prev');
     if($prevpic!=""){$prevpic=$prevpic["id"];}else {$prevpic=$pic["id"];}
-    echo '<a  href="?mode=img_view&img='.$prevpic.'"><span id="previmage"><img  src="prev.png" alt="prev img">prev image</span></a>';
-    echo '<span>&nbsp&nbsp&nbsp&nbsp</span>';
-    echo '<a  href="?mode=img_view&img='.$nextpic.'"><span id="nextimage">next image<img  src="next.png" alt="next img"></span></a>';
+
+
+//   contents
+    echo '<table border="0"><tr>
+<td><a  href="?mode=img_view&img='.$prevpic.'"><span id="previmage"><img  src="prev.png" alt="prev img"></span></a></td>
+<td><div class="img_view"><img src="img/img/'.$pic["pic"].'" alt="pic" > </div></td>
+<td><a  href="?mode=img_view&img='.$nextpic.'"><span id="nextimage"><img  src="next.png" alt="next img"></span></a></td>
+</tr>';
+
+    echo '<tr><td></td><td align="right"><span class="img_name">'.$pic["title"].'</span> / by: <span class="img_author">'.$pic["author"].'</span></td><td></td></tr>';
+    echo '<tr><td></td><td align="right"><span class="img_is_public">Public: '.$pic["is_public"].'</span></td></tr>';
+    echo '</table>';
+
+//change pic button
+    if(isset($_SESSION["user"])&&$pic["user_id"]==$_SESSION["userid"]){ //if user is logged in he/she can change the picture
+        $getimg="&img=".$_GET["img"];
+        echo '<div class="button_green"><a  href="?mode=change'.$getimg.'">Change pic</a></div></br>';
+    }
+
+
 }
 
 function kuva_logout(){
@@ -366,12 +387,13 @@ function pic_from_base($picid, $type=""){
     //turvalisust
     $picid=mysqli_real_escape_string($connection, $picid);
     //toob yhe pildi rea
+    $user=$_SESSION["userid"];
     switch($type){
         case 'next':
-            $query="select * from ptiganik_pildid where id = (select min(id) from ptiganik_pildid where id > '$picid')";
+            $query="select * from ptiganik_pildid where id = (select min(id) from ptiganik_pildid where id > '$picid' and (user_id='$user' or is_public='yes'))";
             break;
         case 'prev':
-            $query="select * from ptiganik_pildid where id = (select max(id) from ptiganik_pildid where id < '$picid')";
+            $query="select * from ptiganik_pildid where id = (select max(id) from ptiganik_pildid where id < '$picid' and (user_id='$user' or is_public='yes'))";
             break;
         default:
             $query="select * from ptiganik_pildid where id = '$picid'";
@@ -391,7 +413,6 @@ function pic_from_base($picid, $type=""){
         return "";
     }
 }
-
 function upload($name, $loc, $resize, $size){
     $allowedExts = array("jpg", "jpeg", "gif", "png", "JPG", "JPEG", "GIF", "PNG");
     $allowedTypes = array("image/gif", "image/jpeg", "image/png","image/pjpeg");

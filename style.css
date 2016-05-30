@@ -1,3 +1,24 @@
+/*
+#menu a:hover, #menu span:hover{
+    color: skyblue;
+    background: navy;
+}
+
+!* alamenüü paigutamine *!
+#menu ul {
+    position: absolute; !* vanema suhtes paigutamine*!
+    left: 0px;
+    width: 100%;
+    display: none; !*lehe laadimisel peidus *!
+}
+#menu ul a {
+    width: 100%;
+}
+
+*/
+
+
+
 
 body{
     background:lightgrey;
@@ -88,6 +109,10 @@ border-radius: 4px;
 
 .table_gallery img  {
     border: 2px solid  #363E45;
+}
+.imageingallery{
+
+    text-align:center;
 }
 
 /*

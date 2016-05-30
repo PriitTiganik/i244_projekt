@@ -31,6 +31,13 @@ switch($mode){
             kuva_index();
         }
         break;
+    case "galleryprivate":
+        if(isset($_SESSION["user"])) {
+            kuva_galleryprivate();
+        } else { //pole sisse loginud
+            kuva_index();
+        }
+        break;
     case "img_view":
         kuva_img_view();
         break;

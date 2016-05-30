@@ -54,7 +54,7 @@ if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
 
         </tr>
 
-        <?php if(!isset($_GET['img'])){echo "<tr><td colspan='2'><input type='checkbox' name = 'genthumb' value ='genthumb'> Generate thumbnail from large image</td></tr>";};?>
+        <?php if(!isset($_GET['img'])){echo "<tr><td colspan='2'><input type='checkbox' name = 'genthumb' value ='genthumb' checked> Generate thumbnail from large image</td></tr>";};?>
         <tr>
             <td>Make picture public:</td>
             <td colspan ="2">
@@ -73,7 +73,7 @@ if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
          ?>
         <tr>
             <td></br><button class="button_greener" type="submit"><?php
-            if(isset($_GET["img"])){echo 'Modify named picture';} else {echo 'Upload new picture';};?></button>
+            if(isset($_GET["img"])){echo 'Modify named picture';} else {echo 'Upload';};?></button>
             </td>
         </tr>
     </table>
