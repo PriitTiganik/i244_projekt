@@ -221,9 +221,9 @@ function img($public=1){
 
 //   contents
     echo '<table border="0"><tr>
-        <td><a  href="?mode=img_view&public='.$public.'&img='.$prevpic.'"><span id="previmage"><img  src="prev.png" alt="prev img"></span></a></td>
+        <td><a  id="previmage" href="?mode=img_view&public='.$public.'&img='.$prevpic.'"><span><img  src="prev.png" alt="prev img"></span></a></td>
         <td colspan="2"><div class="img_view"><a  href="?mode=img_view&public='.$public.'&img='.$nextpic.'"><img src="img/img/'.$pic["pic"].'" alt="pic" ></a> </div></td>
-        <td><a  href="?mode=img_view&public='.$public.'&img='.$nextpic.'"><span id="nextimage"><img  src="next.png" alt="next img"></span></a></td>
+        <td><a id="nextimage" href="?mode=img_view&public='.$public.'&img='.$nextpic.'"><span><img  src="next.png" alt="next img"></span></a></td>
         </tr>';
 
     echo '<tr><td></td><td rowspan="2">';

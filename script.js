@@ -1,16 +1,4 @@
 $(document).ready(function(){
-/*    $("ul.hover").mouseenter(function(){
-        //$("ul>li>ul").hide();
-        $("#menu ul").hide(300);
-        $(this).children($("ul")).show(300);
-    })
-    $("ul.hover").mouseleave(function(){
-        //$("ul>li>ul").hide();
-        $("#menu ul").hide(300);
-
-    })*/
-
-
 
     $('.header-inner>a').mouseenter(function(){
         $(this).css("color","#ffffff");
@@ -31,81 +19,31 @@ $(document).ready(function(){
         mouseleave: function(){
             $(this).css("border","2px solid #363E45");
         }
-       /* ,
-        click: function(){
-            $(this).css("color","Gold");
-        }*/
     });
 
-    var img_num;
-    function find_img_num(){
-        var str=$('.img_view>img').attr("src");
-        //var firstindex=st11;
-        var firstindex="img/img/img".length;
-        var lastindex=str.indexOf(".JPG");
- /*       alert(str);
-        alert(firstindex);
-        alert(lastindex);
-        alert(str.slice(firstindex,lastindex)*1);*/
-        return str.slice(firstindex,lastindex)*1;
-    }
+    /*http://stackoverflow.com/questions/1402698/binding-arrow-keys-in-js-jquery*/
+    $(document).keydown(function(e) {
+        switch(e.which) {
+            case 37: // left
+                window.location=document.getElementById('previmage').href;
+                break;
 
+            case 38: // up
+                window.location=document.getElementById('previmage').href;
+                break;
 
+            case 39: // right
+                window.location=document.getElementById('nextimage').href;
+                break;
 
-    if(document.getElementById('sheetgallery') != null){
-        //alert("tere galerii");
-        var imgs = document.querySelectorAll('body #jsgallery img');
-        imgs[0].onclick=function(){
-            showDetails(imgs[0]);
-            return false;
-        };
-        imgs[1].onclick=function(){
-            showDetails(imgs[1]);
-            return false;
-        };
+            case 40: // down
+                window.location=document.getElementById('nextimage').href;
+                break;
 
-    }
-    function showDetails(el){
-        if(document.getElementById('hoidja')==null){
-            return false;
+            default: return; // exit this handler for other keys
         }
-        var suurpilt= document.getElementById('suurpilt');
-        suurpilt.src= el.parentNode.href;
-        //alert(suurpilt.src);
-        suurpilt.onload =function(){suurus(this)};
-        suurpilt.alt=el.alt;
-
-        document.getElementById('inf').innerHTML=el.alt;
-        document.getElementById('hoidja').style.display='initial';
-
-        return false;
-    }
-    function suurus(el){
-        el.removeAttribute("height"); // eemaldab suuruse
-        el.removeAttribute("width");
-        if (el.width>window.innerWidth || el.height>window.innerHeight){  // ainult liiga suure pildi korral
-            if (window.innerWidth >= window.innerHeight){ // lai aken
-                el.height=window.innerHeight*0.9; // 90% kõrgune
-                if (el.width>window.innerWidth){ // kas element läheb ikka üle piiri?
-                    el.removeAttribute("height");
-                    el.width=window.innerWidth*0.9;
-                }
-            } else { // kitsas aken
-                el.width=window.innerWidth*0.9;   // 90% laiune
-                if (el.height>window.innerHeight){ // kas element läheb ikka üle piiri?
-                    el.removeAttribute("width");
-                    el.height=window.innerHeight*0.9;
-                }
-            }
-        }
-    }
-    function  hideDetails() {
-        document.getElementById('hoidja').style.display='none';
-    }
-    window.onresize=function() {
-        suurpilt=document.getElementById("suurpilt");
-        suurus(suurpilt);
-    }
+        e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
 
 
 });
