@@ -43,14 +43,15 @@ function kuva_galleryprivate(){
     }
 }
 function gallery ($public=true){ //generates gallery
-    echo "<div class=\"div_gallery\"><table border=\"1\">";
+    echo "<div class=\"div_gallery\"><table>";
     global $pictures;
     $columns=4;
     $cellcount=0;
-    echo '<tr>'; //first row is empty
+
+    echo '<tr><td colspan="'.$columns.'"></td>'; //first row is empty
     foreach($pictures as $pic) {
         if($pic["user_id"]==$_SESSION["userid"]||($pic["is_public"]=="yes"&&$public)) { //gallery for only public pictures or from the same user
-            $jpgimg = "?mode=img_view&img=" . $pic["id"]; /// pildi aadressist teeb get p'ringu
+            $jpgimg = "?mode=img_view&public=$public&img=" . $pic["id"]; /// pildi aadressist teeb get p'ringu
             $jpgthumb = "img/thumb/" . $pic["thumb"];
             $alt = $pic["title"];
             if($cellcount%$columns==0){echo '</tr>';}//end table row if 4 columns are full
@@ -60,6 +61,7 @@ function gallery ($public=true){ //generates gallery
         }
     }
     echo "</table></div>";
+
 }
 function kuva_index(){
     include_once("view/head.html");
@@ -186,12 +188,16 @@ function kuva_change(){
 function kuva_img_view(){
     //$pictures = pics_from_base();
     include_once("view/head.html");
-    img();
-    //include_once("controller_img.php");
+    if($_GET["public"]){
+        img(1);
+    }else{
+        img(0);
+    }
+
     include_once("view/img_view.html");
     include_once("view/foot.html");
 }
-function img(){
+function img($public=1){
     $img_id="";
     if(isset($_GET["img"])){
         $img_id=$_GET["img"];
@@ -202,28 +208,35 @@ function img(){
 
 //navigate calculations
     $nextpic=pic_from_base($img_id, 'next');
-    if($nextpic!=""){$nextpic=$nextpic["id"];}else {$nextpic=$pic["id"];}
     $prevpic=pic_from_base($img_id,'prev');
-    if($prevpic!=""){$prevpic=$prevpic["id"];}else {$prevpic=$pic["id"];}
+    if($public){
+        if($nextpic!=""){$nextpic=$nextpic["id"];}else {$nextpic=$pic["id"];}
+        if($prevpic!=""){$prevpic=$prevpic["id"];}else {$prevpic=$pic["id"];}
+    } else if(!$public) {
+        if($nextpic!="" &&$nextpic["user_id"]==$_SESSION["userid"]){$nextpic=$nextpic["id"];}else {$nextpic=$pic["id"];}
+        if($prevpic!=""&&$prevpic["user_id"]==$_SESSION["userid"]){$prevpic=$prevpic["id"];}else {$prevpic=$pic["id"];}
+    }
+
 
 
 //   contents
     echo '<table border="0"><tr>
-<td><a  href="?mode=img_view&img='.$prevpic.'"><span id="previmage"><img  src="prev.png" alt="prev img"></span></a></td>
-<td><div class="img_view"><img src="img/img/'.$pic["pic"].'" alt="pic" > </div></td>
-<td><a  href="?mode=img_view&img='.$nextpic.'"><span id="nextimage"><img  src="next.png" alt="next img"></span></a></td>
-</tr>';
+        <td><a  href="?mode=img_view&public='.$public.'&img='.$prevpic.'"><span id="previmage"><img  src="prev.png" alt="prev img"></span></a></td>
+        <td colspan="2"><div class="img_view"><a  href="?mode=img_view&public='.$public.'&img='.$nextpic.'"><img src="img/img/'.$pic["pic"].'" alt="pic" ></a> </div></td>
+        <td><a  href="?mode=img_view&public='.$public.'&img='.$nextpic.'"><span id="nextimage"><img  src="next.png" alt="next img"></span></a></td>
+        </tr>';
 
-    echo '<tr><td></td><td align="right"><span class="img_name">'.$pic["title"].'</span> / by: <span class="img_author">'.$pic["author"].'</span></td><td></td></tr>';
-    echo '<tr><td></td><td align="right"><span class="img_is_public">Public: '.$pic["is_public"].'</span></td></tr>';
-    echo '</table>';
+    echo '<tr><td></td><td rowspan="2">';
 
-//change pic button
+    //change pic button
     if(isset($_SESSION["user"])&&$pic["user_id"]==$_SESSION["userid"]){ //if user is logged in he/she can change the picture
         $getimg="&img=".$_GET["img"];
-        echo '<div class="button_green"><a  href="?mode=change'.$getimg.'">Change pic</a></div></br>';
+        echo '<div ><a class="button_green" href="?mode=change'.$getimg.'">Change picture</a></div>';
     }
 
+    echo '</td><td align="right"><span class="img_name">'.$pic["title"].'</span> / by: <span class="img_author">'.$pic["author"].'</span></td><td></td></tr>';
+    echo '<tr><td></td><td align="right"><span class="img_is_public">Public: '.$pic["is_public"].'</span></td><td></td></tr>';
+    echo '</table>';
 
 }
 

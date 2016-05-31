@@ -15,10 +15,6 @@
             <?php if(isset($_SESSION["user"])):?>
             <a  href="?mode=index">Home</a>
             <a  href="?mode=gallery">Public gallery</a>
-            <!--<ul class="hover">
-                <li><a href="?">link</a></li>
-                <li><a href="?">link</a></li>
-            </ul>-->
             <a  href="?mode=galleryprivate">Your gallery</a>
             <a  href="?mode=change">Upload</a>
             <a  href="?mode=logout">Log out</a>
@@ -29,10 +25,13 @@
             ?></span></div>
             <?php endif;?>
 
+
+
+
             <?php if(!isset($_SESSION["user"])):?>
             <a  href="?mode=index">Home</a>
             <a  href="?mode=gallery">Public gallery</a>
-            <a  href="?mode=login">Log in</a> <!--upload.html-->
+            <a  href="?mode=login">Log in</a>
             <!--welcome message after login. deleted in functions-->
             <div>not logged in</div>
             <?php endif;?>

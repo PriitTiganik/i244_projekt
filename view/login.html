@@ -3,8 +3,8 @@
 
     <table>
         <tr>
-            <td>email:</td><td><input type="email" name ="login_email" id=login_email" placeholder="user@email.com" value="kasutaja@email.ee"  size ="30"
-            <?php if(!empty($_POST["login_email"])) echo "value=\"".htmlspecialchars($_POST["login_email"])."\" "; ?>
+            <td>email:</td><td><input type="email" name ="login_email" id="login_email" placeholder="user@email.com" size ="30"
+            <?php if(!empty($_POST["login_email"])) {echo "value=\"".htmlspecialchars($_POST["login_email"])."\"";}; echo ">"; ?>
             </td>
             <td>
                 <?php $e='missing email' ; if(!empty($errors) && in_array($e,$errors)):?>
@@ -13,7 +13,7 @@
             </td>
         </tr>
         <tr>
-            <td>password:</td><td><input type="password" name ="login_password" id=login_password"  size ="30" ></td> <!--name ="login_password" id=login_password" -->
+            <td>password:</td><td><input type="password" name ="login_password" id="login_password"  size ="30" ></td>
             <td>
                 <?php $e='missing password' ; if(!empty($errors) && in_array($e,$errors)):?>
                 <span style="color:red"><?php echo $e; ?></span>
@@ -21,9 +21,7 @@
             </td>
         </tr>
     </table>
-    <button type="submit">
-        log in
-    </button>
+    <a class="button_green"  onclick="login.submit();"> Log in</a>
 </form>
 </div>
 <br><br>
@@ -34,18 +32,16 @@
 
     <table >
         <tr>
-            <td>email:</td><td><input type="email" name ="register_email" id=register_email" placeholder="email@email.com"  size ="30" ></>
+            <td>email:</td><td><input type="email" name ="register_email" id="register_email" placeholder="email@email.com"  size ="30" ></td>
         </tr>
         <tr>
-            <td>password:</td><td><input type="password" name ="register_password" id=register_password"  size ="30" ></td>
+            <td>password:</td><td><input type="password" name ="register_password" id="register_password"  size ="30" ></td>
         </tr>
         <tr>
-            <td>repeat password:</td><td><input type="password" name ="register_password_repeat" id=register_password_repeat"  size ="30" ></td>
+            <td>repeat password:</td><td><input type="password" name ="register_password_repeat" id="register_password_repeat"  size ="30" ></td>
         </tr>
     </table>
-    <button type="submit">
-        register
-    </button>
+    <a class="button_green"  onclick="register.submit();"> Register</a>
 </form>
 </div>
 

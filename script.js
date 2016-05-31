@@ -24,9 +24,9 @@ $(document).ready(function(){
             200);
     });
 
-    $('.table_gallery img').on({
+    $('.imageingallery img').on({
         mouseenter: function(){//midateha
-            $(this).css("border","4px solid #363E45");
+            $(this).css("border","2px solid #3bc78b");
         },
         mouseleave: function(){
             $(this).css("border","2px solid #363E45");
@@ -49,27 +49,7 @@ $(document).ready(function(){
         alert(str.slice(firstindex,lastindex)*1);*/
         return str.slice(firstindex,lastindex)*1;
     }
-/*
 
-    $('#previmage').click(function(){
-        img_num=find_img_num();
-        $newimg=(img_num-1);
-        $prevhref="controller_img.php?newimg=t&img=img"+$newimg;
-        $.get($prevhref, "html", function(data){//ajax gets new image from controller_img
-            $('.img_view').html(data);
-        });
-    });
-
-    $('#nextimage').click(function(){
-        img_num=find_img_num();
-        $newimg=(img_num+1);
-        $nexthref="controller_img.php?newimg=t&img=img"+$newimg;
-        $.get($nexthref, "html", function(data){
-            $('.img_view').html(data);
-        });
-    });
-
-*/
 
 
     if(document.getElementById('sheetgallery') != null){

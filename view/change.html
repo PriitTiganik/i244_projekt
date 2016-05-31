@@ -4,7 +4,6 @@ $picmod=array(); //picture to modify
 if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
 //print_r($picmod);
 ?>
-<!--<?php ( explode('\\',$picmod[0]['pic'])); ?>-->
 <div class="formtables">
 <form method="POST" enctype="multipart/form-data" action="?mode=change" id ="change" >
     <?php if(isset($_GET["img"])){
@@ -13,7 +12,7 @@ if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
         echo '</p>';
     };?>
     <br>
-    <table>
+    <table border="0">
         <tr>
             <td>Author:</td><td colspan="1"><input type="text" name="img_author" value="<?php
             if(isset($_GET['img'])){echo htmlspecialchars($picmod['author']);}; ?>"></td>
@@ -23,25 +22,6 @@ if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
             if(isset($_GET['img'])){echo htmlspecialchars($picmod['title']);}; ?>">
             </td>
         </tr>
-        <!--<tr>
-            <td>folder:</td><td colspan="2">
-            <select name="img_folder">
-                <option value ="new_folder">new folder</option>
-                <option value ="one">one</option>
-                <option value ="two">two</option>
-            </select>
-        </td>
-            <td>new folder:</td>
-            <td><input type="text" name="img_new_folder" ></td>
-        </tr>-->
-<!--        <tr>
-            <td>Large picture:</td><td><input type="text" name="img_img" value="<?php
-            if(isset($_GET['img'])){echo htmlspecialchars($picmod['pic']);}; ?>"></td>
-        </tr>
-        <tr>
-            <td>Thumbnail:</td><td><input type="text" name="img_thumb" value="<?php
-            if(isset($_GET['img'])){echo htmlspecialchars($picmod['thumb']);}; ?>"></td>
-        </tr>-->
         <tr>
             <td>Large picture:</td><td><input type="file" name="img_file"  ></td>
             <?php
@@ -58,9 +38,9 @@ if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
         <tr>
             <td>Make picture public:</td>
             <td colspan ="2">
-                <input type="radio" id ="no" name = "is_public" value ="no" checked >
+                <input type="radio" id ="no" name = "is_public" value ="no">
                 <label for="no">No</label>
-                <input type="radio" id= "yes" name = "is_public" value ="yes" >
+                <input type="radio" id= "yes" name = "is_public" value ="yes" checked>
                 <label for="yes">Yes</label>
             </td>
         </tr>
@@ -72,10 +52,11 @@ if(isset($_GET['img'])){$picmod=pic_from_base($_GET["img"]);};
         if(isset($_GET['img'])){echo "<input type='hidden' name='img_id' value='".$_GET['img']."'>";};
          ?>
         <tr>
-            <td></br><button class="button_greener" type="submit"><?php
-            if(isset($_GET["img"])){echo 'Modify named picture';} else {echo 'Upload';};?></button>
+            <td colspan="2"></br>    <a class="button_green"  onclick="change.submit();"><?php
+            if(isset($_GET["img"])){echo 'Modify named picture';} else {echo 'Upload';};?></a>
             </td>
         </tr>
     </table>
+
 </form>
 </div>
