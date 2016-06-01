@@ -1,14 +1,14 @@
 
+#wrapper { /*http://cssreset.com/how-to-keep-footer-at-bottom-of-page-with-css/*/
+    min-height: 100%;
+    position: relative;
+}
+
 body{
     background:lightgrey;
     margin:0px;
     padding:0px;
     height:100%;
-}
-
-#wrapper {  /*http://cssreset.com/how-to-keep-footer-at-bottom-of-page-with-css/*/
-    min-height:100%;
-    position:relative;
 }
 
 /* https://teamtreehouse.com/community/html-code-for-a-menu-bar  */
@@ -20,7 +20,7 @@ body{
     width: 100%;
     min-width: 300px;
 }
-.body{
+#body{
     padding-top:70px;
     max-width:1000px;
     padding-bottom:100px;
@@ -28,13 +28,20 @@ body{
     /*margin:auto;*/
 }
 
-.footer{
+#footer{
     width:100%;
     height:100px;
     position:absolute;
     bottom:0;
     left:0;
     padding-left: 2%;
+
+/*    background:#ffab62;
+    width:100%;
+    height:100px;
+    position:absolute;
+    bottom:0;
+    left:0;*/
 }
 
 .header-inner {
@@ -93,7 +100,8 @@ body{
     text-align:center;
 }
 
-#taust{ /* taust, mis peidab lehe sisu */
+/*
+#taust{ !* taust, mis peidab lehe sisu *!
      position: fixed;
      top: 0;
      bottom: 0;
@@ -101,4 +109,4 @@ body{
      right: 0;
      background: rgba(0,0,0,0.7);
      z-index:5;
- }
+ }*/

@@ -56,7 +56,7 @@ function gallery ($public=true){ //generates gallery
             $alt = $pic["title"];
             if($cellcount%$columns==0){echo '</tr>';}//end table row if 4 columns are full
             if($cellcount%$columns==0){echo '<tr>';} //start table row if previous 4 columns are full
-            echo '<td class="imageingallery"><span><a href="' . $jpgimg . '"><img src="' . $jpgthumb . '" alt="' . $alt . '"></a></span></td>';
+            echo '<td class="imageingallery"><div><a href="' . $jpgimg . '"><img src="' . $jpgthumb . '" alt="' . $alt . '"></a></div></td>';
             $cellcount++;
         }
     }
@@ -68,19 +68,9 @@ function kuva_index(){
     include("view/index.html");
     include_once("view/foot.html");
 }
-/*function kuva_upload(){
 
-    if(isset($_SESSION["user"])){
-        include_once("view/head.html");
-        include("view/upload.html");
-        include_once("view/foot.html");
-    } else{
-        kuva_index();
-    }
-}*/
 function kuva_change(){
     global $connection;
-    global $pictures;
     $errors=array();
 
     include_once("view/head.html");
@@ -107,24 +97,19 @@ function kuva_change(){
         include("view/change.html");
         include_once("view/foot.html");
     }
-    //echo empty($_POST["genthumb"]);
-    //print_r($_POST);
-    if(count($errors)==0&&!empty($_POST)) { //erroreid pole, upload voi insert
-        $queryresult="aa";
-        $picmod=array();
 
+    if(count($errors)==0&&!empty($_POST)) { //erroreid pole, upload voi insert
+        $queryresult="";
         $img_author=array('img_author',mysqli_real_escape_string($connection,$_POST["img_author"]))[1];
         $img_title=array('img_title',mysqli_real_escape_string($connection,$_POST["img_title"]))[1];
         $is_public=array('is_public',mysqli_real_escape_string($connection,$_POST["is_public"]))[1];
-        //$img_img=array('img_img',mysqli_real_escape_string($connection,'img\img\\'.$_POST["img_img"]))[1];
         $img_img=upload('img_file','/home/ptiganik/public_html/i244_projekt/img/img', true,600);
-        //$img_thumb=array('img_thumb',mysqli_real_escape_string($connection,'img\thumb\\'.$_POST["img_thumb"]))[1];
+
         if( empty($_POST["genthumb"])){//generate thumbnail from large image.
             $img_thumb=upload('thumb_file','/home/ptiganik/public_html/i244_projekt/img/thumb', true,150);
         } else {
             $img_thumb="";
         }
-
         if(($img_img=="error"|| $img_img=="exists") && $_POST["post_type"]=='insert'){
             $errors[]="Large file with the same name already exists and the request was not processed!";
         }
@@ -132,8 +117,6 @@ function kuva_change(){
         if(($img_thumb=="error"|| $img_thumb=="exists") && $_POST["post_type"]=='insert' && empty($_POST["genthumb"])){
             $errors[]="Thumbnail file with the same name already exists and the request was not processed!";
         }
-
-       // echo ( $img_img);
 
         $user=$_SESSION['userid'];
         if($_POST["post_type"]=='update'&&count($errors)==0){
@@ -147,10 +130,9 @@ function kuva_change(){
             if($img_thumb=="error"){
                 $img_thumb=$pic["thumb"];
             }
-            //echo 'update';
             //update query
             $query="update ptiganik_pildid set pic='$img_img', thumb='$img_thumb', title='$img_title', author='$img_author',user_id='$user', is_public= '$is_public' where id='$img_id'";
-            //echo $query;
+
             $queryresult=mysqli_query($connection, $query);
             if($queryresult){
                 $queryresult='Picture updated!';
@@ -186,7 +168,6 @@ function kuva_change(){
 
 }
 function kuva_img_view(){
-    //$pictures = pics_from_base();
     include_once("view/head.html");
     if($_GET["public"]){
         img(1);
@@ -217,8 +198,6 @@ function img($public=1){
         if($prevpic!=""&&$prevpic["user_id"]==$_SESSION["userid"]){$prevpic=$prevpic["id"];}else {$prevpic=$pic["id"];}
     }
 
-
-
 //   contents
     echo '<table border="0"><tr>
         <td><a  id="previmage" href="?mode=img_view&public='.$public.'&img='.$prevpic.'"><span><img  src="prev.png" alt="prev img"></span></a></td>
@@ -248,8 +227,6 @@ function kuva_logout(){
 function kuva_login(){
     include_once("view/head.html");
     $errors=array();
-    //var_dump($_POST);
-    //echo($_POST["login_password"]);
 
     if(!empty($_POST)){
         if(empty($_POST["login_email"])){
@@ -259,12 +236,10 @@ function kuva_login(){
             $errors[]="missing password";
         }
     }
-    //var_dump($errors);
+
     if(count($errors)==0&&!empty($_POST)){
         $userid=too_kasutaja_id($_POST["login_email"],$_POST["login_password"], 'validate_user');
-        //insert into ptiganik_kasutajad (user, pass)  values('kasutaja@email.ee',SHA1('parool'));
-        //print_r($userid);
-        //if(($_POST["login_email"])=='kasutaja@email.ee'&&($_POST["login_password"])=='parool'){//dev sisselogimine
+
         if(!empty($userid)){
             $_SESSION['user']=$_POST["login_email"];
             $_SESSION['userid']=($userid[0]['id']);
@@ -287,8 +262,6 @@ function kuva_login(){
 function kuva_register(){
     include_once("view/head.html");
     $errors=array();
-    //var_dump($_POST);
-    //echo($_POST["login_password"]);
 
     if(!empty($_POST)){
         if(empty($_POST["register_email"])){
@@ -309,7 +282,7 @@ function kuva_register(){
     }
 
     if(count($errors)==0&&!empty($_POST)){
-        //insert into ptiganik_kasutajad (user, pass)  values('kasutaja@email.ee',SHA1('parool'));
+
         if(loo_kasutaja($_POST["register_email"], $_POST["register_password"])){
             include_once("view/login.html");
             echo '<span style="color:red">Kasutaja loodud, logi sisse!</span>';
@@ -358,7 +331,7 @@ function too_kasutaja_id($user, $pass, $type){
     } else if ($type=='validate_user') {
         $query="select id from ptiganik_kasutajad where user='$user' and pass=sha1('$pass') ";
     }
-    //echo $query;
+
     $result =mysqli_query($connection, $query);
     //    Pärast päringu käivitamist kasutada tulemuste lugemiseks while tsüklit.
     while($row=mysqli_fetch_assoc($result)){ //Seni kuni on ridu, loe järgmine rida ja paiguta see eelnevalt loodud massiivi lõppu
@@ -385,7 +358,7 @@ function pics_from_base(){
     //Käivitada päring, mis hangib eelmisel korral loodud piltide tabelist kõik read.
     $query="select * from ptiganik_pildid";
     $result =mysqli_query($connection, $query);
-    //print_r($result);
+
     //    Pärast päringu käivitamist kasutada tulemuste lugemiseks while tsüklit.
     while($row=mysqli_fetch_assoc($result)){ //Seni kuni on ridu, loe järgmine rida ja paiguta see eelnevalt loodud massiivi lõppu
         $db_pildid[]=$row;
@@ -413,13 +386,13 @@ function pic_from_base($picid, $type=""){
     }
 
     $result =mysqli_query($connection, $query);
-    //print_r($result);
+
     //    Pärast päringu käivitamist kasutada tulemuste lugemiseks while tsüklit.
     while($row=mysqli_fetch_assoc($result)){ //Seni kuni on ridu, loe järgmine rida ja paiguta see eelnevalt loodud massiivi lõppu
         $db_pilt[]=$row;
     }
     //funktsiooni lõpus tagastada täidetud massiiv
-    //print_r( $db_pilt);
+
     if(!empty($db_pilt)){
         return $db_pilt[0];
     } else {
