@@ -53,7 +53,7 @@ function gallery ($public=true){ //generates gallery
         if($pic["user_id"]==$_SESSION["userid"]||($pic["is_public"]=="yes"&&$public)) { //gallery for only public pictures or from the same user
             $jpgimg = "?mode=img_view&public=$public&img=" . $pic["id"]; /// pildi aadressist teeb get p'ringu
             $jpgthumb = "img/thumb/" . $pic["thumb"];
-            $alt = $pic["title"];
+            $alt = ($pic["title"]);
             if($cellcount%$columns==0){echo '</tr>';}//end table row if 4 columns are full
             if($cellcount%$columns==0){echo '<tr>';} //start table row if previous 4 columns are full
             echo '<td class="imageingallery"><div><a href="' . $jpgimg . '"><img src="' . $jpgthumb . '" alt="' . $alt . '"></a></div></td>';
@@ -100,10 +100,12 @@ function kuva_change(){
 
     if(count($errors)==0&&!empty($_POST)) { //erroreid pole, upload voi insert
         $queryresult="";
-        $img_author=array('img_author',mysqli_real_escape_string($connection,$_POST["img_author"]))[1];
-        $img_title=array('img_title',mysqli_real_escape_string($connection,$_POST["img_title"]))[1];
-        $is_public=array('is_public',mysqli_real_escape_string($connection,$_POST["is_public"]))[1];
+
+        $img_author=htmlspecialchars(array('img_author',mysqli_real_escape_string($connection,$_POST["img_author"]))[1]);
+        $img_title=htmlspecialchars(array('img_title',mysqli_real_escape_string($connection,$_POST["img_title"]))[1]);
+        $is_public=htmlspecialchars(array('is_public',mysqli_real_escape_string($connection,$_POST["is_public"]))[1]);
         $img_img=upload('img_file','/home/ptiganik/public_html/i244_projekt/img/img', true,600);
+
 
         if( empty($_POST["genthumb"])){//generate thumbnail from large image.
             $img_thumb=upload('thumb_file','/home/ptiganik/public_html/i244_projekt/img/thumb', true,150);
@@ -157,6 +159,8 @@ function kuva_change(){
             }
         }
         echo  '<span style="color:red">'.$queryresult.'</span></br>'; //annab teada, mida tehti
+
+
         print_errors($errors);
         include("view/change.html");
         include_once("view/foot.html");
@@ -238,12 +242,12 @@ function kuva_login(){
     }
 
     if(count($errors)==0&&!empty($_POST)){
-        $userid=too_kasutaja_id($_POST["login_email"],$_POST["login_password"], 'validate_user');
+        $userid=too_kasutaja_id(htmlspecialchars($_POST["login_email"]),htmlspecialchars($_POST["login_password"]), 'validate_user');
 
         if(!empty($userid)){
             $_SESSION['user']=$_POST["login_email"];
             $_SESSION['userid']=($userid[0]['id']);
-            $_SESSION['teade']="Tere, kasutaja ".$_POST["login_email"];
+            $_SESSION['teade']="Tere, kasutaja ".htmlspecialchars($_POST["login_email"]);
             header("Location: controller.php?mode=gallery");
 
         } else{
@@ -283,7 +287,7 @@ function kuva_register(){
 
     if(count($errors)==0&&!empty($_POST)){
 
-        if(loo_kasutaja($_POST["register_email"], $_POST["register_password"])){
+        if(loo_kasutaja(htmlspecialchars($_POST["register_email"]), htmlspecialchars($_POST["register_password"]))){
             include_once("view/login.html");
             echo '<span style="color:red">Kasutaja loodud, logi sisse!</span>';
             include_once("view/foot.html");

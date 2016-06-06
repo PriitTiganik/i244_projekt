@@ -20,8 +20,8 @@
             <a  href="?mode=logout">Log out</a>
             <!--welcome message after login. deleted in functions-->
             <div><?php
-            if(isset($_SESSION["teade"])){echo $_SESSION["teade"];}
-            elseif (isset($_SESSION["user"])) {echo $_SESSION['user'];}
+            if(isset($_SESSION["teade"])){echo htmlspecialchars($_SESSION["teade"]);}
+            elseif (isset($_SESSION["user"])) {echo htmlspecialchars($_SESSION['user']);}
             ?></span></div>
             <?php endif;?>
 
